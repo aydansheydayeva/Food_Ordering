@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="/public/admin.css">
+    </head>
+    <body>
+        <h1>Admin Page</h1>
+        <h2>List of users to remove</h2>
+
+        <form  action="/delete_users" method="POST">
+            <div class="name"><h4>NAME</h4></div>
+            <div class="email"><h4>EMAIL</h4></div>
+            <div class="password"><h4>PASSWORD</h4></div>
+            <div class="phone"><h4>PHONE</h4></div>
+            <% post.forEach( (user) => { %>
+                <div class="row">
+                    <div class="name"><input type="checkbox" name="usersList" value="<%= user.userName %>"> <%= user.userName %> </div>
+                    <div class="email"> <%= user.userEmail %> </div>
+                    <div class="password"> <%= user.userPassword %> </div>
+                    <div class="phone"> <%= user.userPhone %> </div>
+                </div>
+            <% }) %>
+            <input type="submit" class="d_users" value="Delete">
+        </form>
+
+        <a href="/" id="back">Exit</a>
+    </body>
+</html>

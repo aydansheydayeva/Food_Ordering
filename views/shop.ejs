@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="/public/shop.css">
+    </head>
+    <body>
+        <h1>Welcome to our Shop!</h1>
+        <label id='user'>User: </label>
+        <input type="text" id="name" name="name" value="<%= post.name %>"><br>
+        <div id="container">
+
+            <form>
+                <div>
+                    <label class="numberr" for="number">Meal Name</label>
+                    <select name="items" id="items">
+                        <option id='x' value="meat">Meat</option>
+                        <option id='x' value="omelet">Omelet</option>
+                        <option id='x' value="salad">Salad</option>
+                        <option id='x' value="soup">Soup</option>
+                        <option id='x' value="juice">Juice</option>
+                    </select>
+                </div>
+                <div class="numberr" id="xxx">
+                    <label class="xx"><input type="checkbox" name="ingredient" value="apple"> Apple<br></label>
+                    <label class="xx"><input type="checkbox" name="ingredient" value="orange"> Orange<br></label>
+                    <label class="xx"><input type="checkbox" name="ingredient" value="pear"> Pear<br></label>
+                    <label class="xx"><input type="checkbox" name="ingredient" value="sauce"> Sauce<br></label>
+                    <label class="xx"><input type="checkbox" name="ingredient" value="rice"> Rice<br></label>
+                    <label class="xx"><input type="checkbox" name="ingredient" value="mushroom"> Mushrooms<br></label>
+                    <label class="xx"><input type="checkbox" name="ingredient" value="avocado"> Avocados<br></label>
+                </div>
+                <div>
+                    <input type="button" class="get-items" value="Get Items">
+                </div>
+            </form>
+            <ul class="itemList"></ul>
+
+            <a href="/" id="exitLink">Exit</a>
+            <a href="/history/<%= post.name %>" id="historyLink">History</a>
+            <script type="text/javascript" src="/scripts/shop.js"></script>
+        </div>
+    </body>
+</html>

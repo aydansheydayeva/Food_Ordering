@@ -1,0 +1,158 @@
+DROP DATABASE IF EXISTS deliveryDB;
+CREATE DATABASE deliveryDB;
+USE deliveryDB;
+
+/*userName is primaryKey (auto_increment id should be instead) as projects target user scope is small*/
+
+CREATE TABLE users(
+userName VARCHAR(20) PRIMARY KEY,
+userEmail VARCHAR(30) NOT NULL,
+userPassword VARCHAR(30) NOT NULL,
+userPhone VARCHAR(20)
+);
+
+INSERT INTO users (userName, userEmail, userPassword, userPhone)
+VALUES
+("admin", "admin@gmail.com", "admin111", "1234567");
+
+CREATE TABLE usersHistory(
+historyID INT(2) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+mealName VARCHAR(300) NOT NULL,
+userName VARCHAR(20) NOT NULL,
+date VARCHAR(50) NOT NULL
+);
+
+ALTER table usersHistory
+ADD CONSTRAINT userName_fk
+FOREIGN KEY (userName) REFERENCES users(userName)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+
+/* ============== TRIGGERS ============== */
+
+# triggers message 'successfully logged in!' when new user logs in
+
+CREATE TABLE after_insert_on_users(
+userID INT(2) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+userName VARCHAR(20) NOT NULL,
+message VARCHAR(50) NOT NULL
+);
+
+DELIMITER $$
+CREATE TRIGGER after_insert_users
+AFTER INSERT ON users FOR EACH ROW
+BEGIN
+	INSERT INTO after_insert_on_users(userName, message)
+	VALUES(NEW.userName, 'successfully logged in!');
+END$$
+DELIMITER ;
+
+# #################
+
+# triggers message 'successfully logged in!' when any user buys something
+
+CREATE TABLE after_insert_on_usersHistory(
+purchaseID INT(2) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+userName VARCHAR(20) NOT NULL,
+mealName VARCHAR(300) NOT NULL,
+message VARCHAR(50) NOT NULL
+);
+
+DELIMITER $$
+CREATE TRIGGER after_insert_usersHistory
+AFTER INSERT ON usersHistory FOR EACH ROW
+BEGIN
+	INSERT INTO after_insert_on_usersHistory(userName, mealName, message)
+	VALUES(NEW.userName, NEW.mealName, 'successfully purchased meal!');
+END$$
+DELIMITER ;
+
+/* ============== Procedures ============== */
+
+# calculate how many items user purchased by providing userName to procedure
+
+DELIMITER //
+
+CREATE PROCEDURE GetPurchaseNumberByUserName(
+	IN UserNamee VARCHAR(30),
+	OUT purchaseNumber INT
+)
+
+BEGIN
+	SELECT count(*) INTO purchaseNumber
+	FROM usersHistory
+	WHERE userName = UserNamee;
+END//
+
+DELIMITER ;
+
+# CALL GetPurchaseNumberByUserName('aydan', @purchaseNumber);
+# SELECT concat('Items Count: ', @purchaseNumber) AS total_count;
+
+# #################
+# count logged in users
+
+DELIMITER //
+
+CREATE PROCEDURE GetCountOfLoggedUsers(
+	OUT UsersCount INT
+)
+
+BEGIN
+	SELECT count(*) INTO UsersCount
+	FROM users;
+END//
+
+DELIMITER ;
+
+# CALL GetCountOfLoggedUsers(@UsersCount);
+# SELECT concat('Logged Users Count: ', @UsersCount) AS logged_users_count;
+
+
+/* ============== Functions ============== */
+# count discount for each user by user's count of purchased items
+
+DELIMITER $$
+CREATE FUNCTION getPurchaseStatus(
+	_usernamee VARCHAR(20)
+)
+RETURNS VARCHAR(50)
+DETERMINISTIC
+BEGIN
+	DECLARE _total INT;
+	DECLARE _label VARCHAR(50);
+
+	SELECT COUNT(*) INTO @_total FROM usersHistory WHERE userName=_usernamee;
+
+	IF @_total < 3 THEN
+	SET @_label = '5% discount';
+	ELSEIF @_total > 3 AND @_total < 10 THEN
+	SET @_label = '15% discount';
+	ELSEIF @_total > 10 THEN
+	SET @_label = '25% discount';
+	END IF;
+	RETURN(@_label);
+END$$
+DELIMITER ;
+
+# SELECT userName, getPurchaseStatus(userName) AS discount FROM users;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

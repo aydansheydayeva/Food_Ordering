@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="/public/history.css">
+    </head>
+    <body>
+        <div class="all">
+            <h1>HISTORY</h1>
+            <h2>User: <%=namee%></h2>
+            <div id="container">
+                <% var x = 1%>
+                <% items.forEach( (item) => { %>
+                    <div class="row">
+                        <div class="mealName"> <%= x %>. <%= item.mealName %> </div>
+                        <div class="time"> <%= item.date %> </div>
+                    </div>
+                    <% x+=1 %>
+                <% }) %>
+            </div>
+            
+            <a href="/" id="exitLink">Exit</a>
+            <a href="/shop/<%= namee %>" id="backToShop">Back to shop</a>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap');
+
+*{
+    font-family: Dosis;
+}
+
+body {
+    background-image: url("bckgrnd3.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+h1{
+    text-align: center;
+    font-size: 40px;
+    margin-top: 40px;
+    color: white;
+}
+
+h2{
+    text-align: center;
+    font-size: 30px;
+    color: white;
+}
+
+.mealName{
+    float: left;
+    margin-left: 60px;
+}
+
+.time{
+    margin-left: 70%;
+}
+
+.row{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#container{
+    background-color:rgba(255,255,255,0.2);
+    font-size: 24px;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+#backToShop{
+    font-size: 20px;
+    color: white;
+    position: absolute;
+    bottom: 20px;
+    right: 75px;
+}
+
+#exitLink{
+    font-size: 20px;
+    color: white;
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+}
